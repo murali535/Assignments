@@ -1,0 +1,34 @@
+HELLOWIZARD:
+
+pipeline {
+    agent { label 'master' }
+    stages {
+        stage('git_clone') {
+            steps {
+                echo 'Cloning from Git Repo' 
+                git 'https://github.com/murali535/hello-dropwizard.git'
+            }
+        }
+    stage('Build') {
+        steps {
+            echo 'Building by using Maven'
+            sh '''
+            mvn clean
+            mvn test
+            mvn package
+            '''
+        }
+    }
+   stage('DockerUpload') {
+        steps {
+            echo 'Building Image & Pushing to dasaregistry.azurecr.io'
+            sh '''
+            docker build -t dropwizards .
+            docker login dasaregistry.azurecr.io -u dasaregistry -p vn1pH5gjrM6sMUNbGBWAWKAEbwV6+AeD
+            docker tag dropwizards:latest dasaregistry.azurecr.io/dropwizards:latest
+            docker push dasaregistry.azurecr.io/dropwizards:latest
+            '''
+        }
+    }
+          }
+        }
