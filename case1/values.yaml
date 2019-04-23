@@ -1,0 +1,25 @@
+namespace: hello-dropwizard
+
+replicas: 3
+
+image:
+  repository: vyom00
+  name: drop
+  tag: 'v.0.1'
+  pullPolicy: IfNotPresent
+
+resources:
+  limits:
+    memory: 500M
+
+service:
+  name: drop-svc
+  type: LoadBalancer
+  externalPort: 8080
+  internalPort: 8080
+
+ports:
+        targetPort: 8080
+  
+ingress:
+  hostname: hello-dropwizard.example.com
