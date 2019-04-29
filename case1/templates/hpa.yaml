@@ -1,0 +1,13 @@
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: wizard-deploy
+  namespace: dev
+spec:
+  scaleTargetRef:
+    apiVersion: extensions/v1beta1
+    kind: Deployment
+    name: wizard-deploy
+  minReplicas: 1
+  maxReplicas: 6
+  targetCPUUtilizationPercentage: 40

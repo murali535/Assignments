@@ -1,0 +1,35 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: hello-dropwizard
+  #namespace: dev
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: hello-dropwizard
+        tier: backend
+    spec:
+      containers:
+      - name: hello-dropwizard
+        image: karthi102/hello1:19
+        ports:
+        - containerPort: 8080
+          name: portal-app
+        readinessProbe:
+          failureThreshold: 3
+          tcpSocket:
+            port: 8080
+          initialDelaySeconds: 15
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 15
+        livenessProbe:
+          failureThreshold: 3
+          tcpSocket:
+            port: 8080
+          initialDelaySeconds: 15
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 15

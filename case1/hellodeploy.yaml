@@ -1,0 +1,25 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: hello-dropwizard
+  #namespace: dev
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: hello-dropwizard
+        tier: backend
+    spec:
+      containers:
+      - name: hello-dropwizard
+        image: dasathila/hello:latest
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+        env:
+        - name: GET_HOSTS_FROM
+          value: dns
+        ports:
+        - containerPort: 8080 
